@@ -1,5 +1,7 @@
 {
+  "python.useEnvironmentsExtension": false,
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
+  "python.envFile": "${workspaceFolder}/.vscode/test.env",
   "python.languageServer": "None",
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,

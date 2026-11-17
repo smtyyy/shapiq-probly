@@ -201,6 +201,15 @@ In VS Code, install the workspace's recommended Python, Ruff and ty extensions a
 worktree's `.venv` interpreter. Shared settings enable formatting and import fixes on save and use
 the environment's pinned tools. The `shapiq: quality`, `test`, `check before push` and `docs` tasks
 call the same helper as the terminal/CI. Bootstrap a new environment from the terminal first.
+The workspace uses the Python extension's environment manager. The separate Python Environments
+extension can currently pass a `.venv` directory as an executable or incomplete Python-version
+metadata to the pinned language tools, so it is disabled for this project only. Reassess this
+workaround when updating those integrations. The portable interpreter default selects this
+checkout's `.venv`; if an older selection persists, use **Python: Select Interpreter** to select
+the actual executable (`.venv/bin/python` on macOS/Linux, `.venv/Scripts/python.exe` on Windows),
+then reload the window.
+Test Explorer loads `.vscode/test.env` to use the same native-thread limits and headless plotting
+as the test helper.
 Other editors should use this worktree's interpreter and the existing `pyproject.toml` rules.
 
 For agents, open this repository/worktree as the project. Codex discovers the root `AGENTS.md` and

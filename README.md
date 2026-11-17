@@ -1,5 +1,11 @@
 # shapiq: Shapley Interactions for Machine Learning <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/mmschlk/shapiq/main/docs/source/_static/logo/shapiq-logo-stacked-dark.svg"><img alt="shapiq" src="https://raw.githubusercontent.com/mmschlk/shapiq/main/docs/source/_static/logo/shapiq-logo-stacked-light.svg" align="right" height="250px"></picture>
 
+> **shapiq-probly development fork:** We extend shapiq with uncertainty support using probly.
+> Work happens in feature branches and reviewed PRs within
+> [smtyyy/shapiq-probly](https://github.com/smtyyy/shapiq-probly).
+> Start with the [fork contributor guide](.github/CONTRIBUTING.md) and shared
+> [agent instructions](AGENTS.md). The upstream package information below describes shapiq.
+
 [![PyPI version](https://badge.fury.io/py/shapiq.svg)](https://badge.fury.io/py/shapiq)
 [![License](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![codecov](https://codecov.io/gh/mmschlk/shapiq/branch/main/graph/badge.svg)](https://codecov.io/gh/mmschlk/shapiq)

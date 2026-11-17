@@ -1,24 +1,20 @@
-## Motivation and Context
+## Behavior and motivation
 
----
+Describe the concrete problem and resulting behavior. Include public API changes, if any.
 
-## Public API Changes
+## Reuse
 
--   [ ] No Public API changes
--   [ ] Yes, Public API changes (Details below)
+Which existing shapiq/probly APIs were reused? Explain any new implementation or dependency choice.
 
----
+## Verification
 
-## How Has This Been Tested?
+List commands run and results, including relevant new/regression tests and any skipped backends.
 
----
+- [ ] The PR base is `smtyyy/shapiq-probly:main`.
+- [ ] `uv run --no-sync python build_tools/dev.py check` passes locally.
+- [ ] Behavior changes have durable tests; numerical behavior has an independent oracle.
+- [ ] Disposable harnesses/setup probes remain local; committed tests do not merely mirror config.
+- [ ] Public API/reference/examples and `CHANGELOG.md` are updated where relevant.
+- [ ] Optional dependencies, deterministic game contracts and data/cache isolation are preserved.
 
-## Checklist
-
--   [ ] The changes have been tested locally.
--   [ ] Documentation has been updated (if the public API or usage changes).
--   [ ] An entry has been added to `CHANGELOG.md` (if relevant for users).
--   [ ] The code follows the project's style guidelines.
--   [ ] I have considered the impact of these changes on the public API.
-
----
+Request approval from another human before merging. Agent reviews supplement that review.

@@ -1,0 +1,5 @@
+# Shared project configuration. Trust this checkout in Codex before loading it.
+# Authenticate individually with `codex mcp login context7`; never commit tokens.
+# Existing personal model, approval, and sandbox preferences remain user-owned.
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp/oauth"

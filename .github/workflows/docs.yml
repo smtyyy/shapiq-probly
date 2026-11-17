@@ -4,7 +4,8 @@
 name: Documentation
 on:
     pull_request:
-        types: [labeled, synchronize, reopened]
+        branches: [main]
+        types: [opened, labeled, synchronize, reopened, ready_for_review]
     workflow_dispatch:
 jobs:
     build_docs:

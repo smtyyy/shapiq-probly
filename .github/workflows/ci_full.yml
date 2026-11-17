@@ -5,11 +5,13 @@
 name: Full CI
 on:
     pull_request:
+        branches: [main]
         types: [labeled]
+permissions:
+    contents: read
 jobs:
     full_ci:
         name: Full CI
         # only the label itself, not when other labels are added
         if: github.event.label.name == 'full ci'
         uses: ./.github/workflows/ci.yml
-        secrets: inherit

@@ -1,6 +1,5 @@
 name: Build Wheels and SDist
 on:
-  # pull_request:
   workflow_call:
     inputs:
       ref:
@@ -8,9 +7,10 @@ on:
         required: false
         default: ''
         type: string
-  push:
-    branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build-wheels:

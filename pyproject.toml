@@ -205,6 +205,22 @@ exclude = [
 # Exclude a variety of commonly ignored directories.
 # Note to developers: If you add a new ignore at least put a comment next to it why it is ignored
 [tool.ruff.lint.per-file-ignores]
+"build_tools/dev.py" = [
+    "INP001",  # standalone development command, not an importable package
+]
+"experiments/**/*.py" = [
+    "D",       # exploratory scripts do not require production docstrings
+    "ANN",     # exploratory helpers need not expose a typed public API
+    "INP001",  # topic directories are not importable production packages
+    "I002",    # no annotation boilerplate is needed for exploratory scripts
+    "T201",    # scripts may print observations
+]
+"experiments/**/*.ipynb" = [
+    "D",       # research context belongs in Markdown cells
+    "ANN",     # exploratory cells do not require type annotations
+    "I002",    # no annotation boilerplate is needed for exploratory cells
+    "T201",    # notebooks may print observations
+]
 "src/shapiq/approximator/shapleig/_shapley_math.py" = [
     # controlled verbatim copy of the validated reference implementation in
     # the ShaplEIG research repository; kept in sync, not restyled
@@ -285,7 +301,7 @@ exclude = [
 convention = "google"
 
 [tool.ty.src]
-include = ["src/shapiq", "src/shapiq_games", "src/shapiq_benchmark"]
+include = ["src/shapiq", "src/shapiq_games", "src/shapiq_benchmark", "build_tools/dev.py"]
 exclude = ["tests", "docs", "benchmark", "scripts"]
 
 [tool.ty.environment]

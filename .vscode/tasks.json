@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "shapiq: setup",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["build_tools/dev.py", "setup"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": []
+    },
+    {
+      "label": "shapiq: quality",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["build_tools/dev.py", "quality"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "shapiq: test",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["build_tools/dev.py", "test"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": [],
+      "group": {"kind": "test", "isDefault": true}
+    },
+    {
+      "label": "shapiq: check before push",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["build_tools/dev.py", "check"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": []
+    },
+    {
+      "label": "shapiq: docs",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["build_tools/dev.py", "docs"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": []
+    }
+  ]
+}

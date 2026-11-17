@@ -10,3 +10,14 @@ prune tests
 prune docs
 prune scripts
 prune benchmark
+prune experiments
+prune .agents
+prune .claude
+prune .codex
+prune .vscode
+prune .github
+exclude AGENTS.md
+exclude CLAUDE.md
+exclude .editorconfig
+exclude .mcp.json
+exclude build_tools/dev.py

@@ -2,6 +2,9 @@ misc/**
 **.DS_store
 
 .vscode/**
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -191,7 +194,23 @@ game_storage/*
 src/shapiq/_version.py
 
 # Claude
-.claude/
+.claude/*
+!.claude/skills/
+!.claude/skills/**
+CLAUDE.local.md
+.claude/settings.local.json
+.codex/*.local.toml
+AGENTS.override.md
+
+# Independent linked checkouts and disposable local checks (never PR contents).
+.worktrees/
+.local-checks/
+
+# Experiment outputs stay local; source notebooks and notes are versioned.
+experiments/**/outputs/
+experiments/**/results/
+experiments/**/data/
+experiments/**/models/
 
 # C-Extension files
 *.so

@@ -1,3 +1,7 @@
+minimum_pre_commit_version: '4.3.0'
+default_install_hook_types: [pre-commit, pre-push]
+default_stages: [pre-commit]
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
@@ -7,6 +11,7 @@ repos:
       - id: check-toml
       - id: end-of-file-fixer
       - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
       - id: mixed-line-ending
       - id: check-merge-conflict
 
@@ -22,10 +27,18 @@ repos:
     hooks:
       - id: ty
         name: ty
-        entry: uv run ty check
+        entry: uv run --no-sync ty check
         language: system
         pass_filenames: false
         types: [python]
+
+      - id: fork-check
+        name: Quality checks and all regular tests before push
+        entry: uv run --no-sync python build_tools/dev.py check
+        language: system
+        stages: [pre-push]
+        pass_filenames: false
+        always_run: true
 
       # the format of the bibliography (docs/source/references.bib), on changed .bib files only
       - id: format-bib
@@ -33,3 +46,8 @@ repos:
         entry: python docs/format_bib.py
         language: python
         files: \.bib$
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.9.1
+    hooks:
+      - id: nbstripout

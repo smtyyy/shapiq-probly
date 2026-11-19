@@ -116,6 +116,53 @@ Explanation Games
    TabularGlobalExplanation
    TabularUncertaintyExplanation
 
+.. _games-probly:
+
+Probly Uncertainty Games
+------------------------
+
+The optional ``shapiq[probly]`` extra connects probly representations to scalar games.
+``ProblyPredictor`` separates representation building from quantification: its
+``represent`` method preserves member and sample structure, while ``evaluate_outputs``
+produces named scalar quantities. ``ProblyGame`` accepts coalition inputs;
+``ImageProblyGame`` reuses the image games' region masks and fill images.
+The same predictor can also be supplied to ``TabularLocalExplanation``.
+
+Use ``for_output(name)`` to explain several quantities with shared model evaluations.
+Each view has its own empty-coalition baseline and works with the existing exact
+computers, approximators, explainers, and ``InteractionValues``.
+
+The default quantifier returns total entropy for a single categorical distribution.
+An unweighted sample of categorical distributions also provides the aleatoric and
+epistemic components. Entropy uses natural logarithms unless ``base`` is specified.
+An explicit, fixed ``class_index`` additionally exposes the probability of that class
+under the categorical distribution or the mean of the sample. A custom quantifier
+returning a mapping from names to scalar vectors supports other probly measures.
+The selected probly revision does not consistently apply sample weights to entropy
+components, so the default quantifier rejects weighted samples.
+
+The ``shapiq[probly-torch]`` extra also installs Torch. For MC dropout, pass a probly
+``Sampler`` and ``evaluation_context=torch_cpu_context(model)``. Scalar evaluation
+uses the same seed for each singleton input and restores the CPU random state and
+the model's training flags. Context factories for other backends can be supplied
+explicitly; the built-in context supports CPU models.
+
+These games explain a scalar uncertainty function. They do not yet estimate the
+uncertainty of Shapley values themselves. That future task needs fixed model-member
+or sample identities across all coalitions; model sampling, missing-feature
+imputation, and Shapley approximation are distinct sources of randomness.
+Keep supplied models and preprocessing fixed while a game or its cached views are
+in use; construct a new game after training or changing the pipeline.
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   ProblyPredictor
+   ProblyGame
+   ImageProblyGame
+   probly.torch_cpu_context
+
 .. _games-valuation:
 
 Valuation and Selection Games

@@ -7,6 +7,7 @@ visualising Shapley values and interaction scores.
 from .bar import bar_plot
 from .beeswarm import beeswarm_plot
 from .force import force_plot
+from .heatmap import interaction_heatmap_plot, region_attribution_plot
 from .network import network_plot
 from .scatter import scatter_plot
 from .scatter_2d import scatter_2d_plot
@@ -29,6 +30,8 @@ __all__ = [
     "beeswarm_plot",
     "scatter_plot",
     "scatter_2d_plot",
+    "region_attribution_plot",
+    "interaction_heatmap_plot",
     # utils
     "abbreviate_feature_names",
 ]

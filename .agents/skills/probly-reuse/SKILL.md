@@ -16,9 +16,10 @@ Read root `AGENTS.md` and the reuse/scientific-contract sections of `.github/CON
   Prefer an adapter connecting public surfaces over copied uncertainty algorithms.
 - Check sample/class/row axes, weights, log base (shapiq's forest game uses base 2), seeded sampling
   and scalar game-value conversion explicitly. Keep optional Torch/JAX backends optional at import.
-- Test a small independent numerical oracle plus decomposition identities, shape validation,
-  repeated calls, coalition batching/order and fresh instances. Add new games to the existing
-  contract registry and use offline fixtures/fakes and temporary caches.
+- For package changes, test a small independent numerical oracle plus decomposition identities,
+  shape validation, repeated calls, coalition batching/order and fresh instances. Add new package
+  games to the existing contract registry and use offline fixtures and temporary caches. For
+  exploratory workflows, follow `experiments/AGENTS.md` for optional topic-local tests.
 - Record reused entry points, justified new logic and dependency choice in the PR. Public API
   additions include exports, reference entries and runnable examples under shapiq formatting.
 

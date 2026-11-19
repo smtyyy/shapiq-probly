@@ -62,6 +62,14 @@ keywords = [
 ]
 
 [project.optional-dependencies]
+probly = [
+    # Official upstream revision used by the optional uncertainty adapters.
+    "probly @ git+https://github.com/pwhofman/probly.git@1189b3aef174b4aa4d5755de1cddbd1733a8b200",
+]
+probly-torch = [
+    "shapiq[probly]",
+    "torch; python_version < '3.15'",
+]
 graph = [
     # required by shapiq.graph (GraphExplainer, GraphGame); torch has no Python 3.15 wheels yet
     "torch; python_version < '3.15'",
@@ -152,6 +160,7 @@ minversion = "8.0"
 line-length = 100
 target-version = "py312"
 src = ["tests", "src", "docs"]
+extend-exclude = ["experiments"]
 
 [tool.ruff.lint]
 # we allow star arguments to be of type Any e.g. def func(*args: Any, **kwargs: Any) -> None: is ok
@@ -242,7 +251,7 @@ exclude = [
 "src/shapiq_games/typing.py" = [
     "A005",  # mirrors shapiq.typing
 ]
-"tests/*.py" = [
+"{tests/*.py,experiments/*/tests/*.py}" = [
     # "ALL",
     "S101", # we need asserts in tests
     "D",    # test docstrings don't matter too much

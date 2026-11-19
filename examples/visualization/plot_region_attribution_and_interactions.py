@@ -2,9 +2,10 @@
 Regions and pairwise interactions
 ==================================
 
-Show first-order contributions at their spatial locations and read all pairwise
-interaction scores for a single explanation. The same pairwise plot works with
-any named features.
+:func:`~shapiq.plot.region_attribution_plot` shows first-order contributions at their
+spatial locations. :func:`~shapiq.plot.interaction_heatmap_plot` shows all pairwise
+interaction scores for a single explanation and works with any named features.
+For an end-to-end use of the spatial plot, see :ref:`probly-image-example`.
 """
 
 from __future__ import annotations

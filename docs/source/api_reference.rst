@@ -136,6 +136,8 @@ Where to Start
        :class:`~shapiq.imputer.MarginalImputer`
    * - explain TabPFN
      - :class:`~shapiq.explainer.TabPFNExplainer`
+   * - explain predictive uncertainty from probly representations
+     - :ref:`games-probly`
    * - compute every index of a small game exactly
      - :class:`~shapiq.game_theory.ExactComputer`
    * - estimate the values of a large game

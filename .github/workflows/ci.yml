@@ -150,6 +150,10 @@ jobs:
                 run: uv sync --locked --all-extras
             -   name: Test import of shapiq_benchmark
                 run: uv run --no-sync python -c "import shapiq_benchmark; print('shapiq_benchmark imported successfully')"
+            -   name: Run probly game tests with the optional dependencies installed
+                run: |
+                    uv run --no-sync python -c "import probly, torch"
+                    uv run --no-sync pytest "tests/shapiq_games" -k probly -rs
             -   name: Run shapiq_benchmark unit tests (serially, see above)
                 run: uv run --no-sync pytest "tests/shapiq_benchmark"
     # ----------------------------------------------------------------------------------------------

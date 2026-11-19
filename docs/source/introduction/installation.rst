@@ -92,6 +92,24 @@ or several at once:
    * - ``benchmark``
      - The datasets and models of :mod:`shapiq_benchmark` (OpenML, UCI, XGBoost, LightGBM,
        CatBoost, Optuna); includes ``games``.
+   * - ``probly``
+     - Probly representation and quantification support for :ref:`games-probly`.
+   * - ``probly-torch``
+     - Includes ``probly`` and adds PyTorch on Python versions below 3.15.
+       Use it for CPU model evaluation with :func:`~shapiq_games.probly.torch_cpu_context`.
+
+To install the probly extra, run this command from the root of a source checkout that contains
+the probly integration.
+
+.. code-block:: bash
+
+   python -m pip install ".[probly]"
+
+For the PyTorch extra, run this command from the same checkout.
+
+.. code-block:: bash
+
+   python -m pip install ".[probly-torch]"
 
 .. tip::
 

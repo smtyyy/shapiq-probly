@@ -78,6 +78,53 @@ def _image_game() -> Game:
     return sg.ImageClassifier(image, model=mean_brightness_classifier, n_superpixels=6)
 
 
+def _probly_representation(x: np.ndarray) -> object:
+    from probly.representation.distribution import create_categorical_distribution
+    from probly.representation.sample import create_sample
+
+    x = np.asarray(x, dtype=float)
+    probability = 0.15 + 0.1 * x[:, 0] + 0.05 * x[:, 1]
+    return create_sample(
+        [
+            create_categorical_distribution(np.column_stack([probability, 1 - probability])),
+            create_categorical_distribution(np.column_stack([1 - probability, probability])),
+        ],
+        sample_axis=0,
+    )
+
+
+def _probly_game(*, normalize: bool = True) -> Game:
+    return sg.ProblyGame(3, sg.ProblyPredictor(_probly_representation), normalize=normalize)
+
+
+def _probly_image_game() -> Game:
+    image = np.arange(12, dtype=np.uint8).reshape(2, 2, 3)
+    predictor = sg.ProblyPredictor(
+        _probly_representation, preprocess=lambda images: images.mean(axis=(1, 2)) / 255
+    )
+    return sg.ImageProblyGame(image, predictor, regions=np.array([[0, 0], [1, 2]]), fill="black")
+
+
+def _probly_mc_game() -> Game:
+    from probly.representer import Sampler
+    from probly.transformation import cast
+
+    torch = pytest.importorskip("torch")
+    with torch.random.fork_rng(devices=[]):
+        torch.set_rng_state(torch.Generator(device="cpu").manual_seed(4).get_state())
+        model = torch.nn.Sequential(
+            torch.nn.Linear(3, 6), torch.nn.Dropout(0.5), torch.nn.Linear(6, 2)
+        ).eval()
+    sampler = Sampler(cast(model, predictor_type="logit_classifier"), num_samples=8, sample_axis=0)
+    predictor = sg.ProblyPredictor(
+        sampler,
+        preprocess=lambda x: torch.as_tensor(x, dtype=torch.float32),
+        evaluation_context=sg.torch_cpu_context(model),
+        random_state=7,
+    )
+    return sg.ProblyGame(3, predictor, cache_size=1)
+
+
 # name -> (factory, centered: whether v(empty) == 0); every game is built from objects
 GAMES: dict[str, tuple[Callable[[], Game], bool]] = {
     "dummy": (lambda: sg.DummyGame(5, interaction=(1, 2)), False),
@@ -215,10 +262,21 @@ GAMES: dict[str, tuple[Callable[[], Game], bool]] = {
         True,
     ),
     "image_callable": (_image_game, True),
+    "probly": (_probly_game, True),
+    "probly_raw": (lambda: _probly_game(normalize=False), False),
+    "probly_image": (_probly_image_game, True),
+    "probly_mc_dropout": (_probly_mc_game, True),
     "graph": (graph_game, True),
 }
 # games with an optional dependency (superpixels, graph neural networks)
-_NEEDS = {"image_callable": "skimage", "graph": "torch_geometric"}
+_NEEDS = {
+    "image_callable": "skimage",
+    "graph": "torch_geometric",
+    "probly": "probly",
+    "probly_raw": "probly",
+    "probly_image": "probly",
+    "probly_mc_dropout": "probly",
+}
 
 
 def _game_param(name: str) -> object:

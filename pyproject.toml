@@ -62,6 +62,14 @@ keywords = [
 ]
 
 [project.optional-dependencies]
+probly = [
+    # Official upstream revision used by the optional uncertainty adapters.
+    "probly @ git+https://github.com/pwhofman/probly.git@1189b3aef174b4aa4d5755de1cddbd1733a8b200",
+]
+probly-torch = [
+    "shapiq[probly]",
+    "torch; python_version < '3.15'",
+]
 graph = [
     # required by shapiq.graph (GraphExplainer, GraphGame); torch has no Python 3.15 wheels yet
     "torch; python_version < '3.15'",

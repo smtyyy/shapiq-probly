@@ -142,10 +142,11 @@ Before implementing uncertainty logic, search the selected probly revision for p
 provides entropy/variance and total/aleatoric/epistemic decompositions; shapiq already has coalition
 algorithms. Prefer a thin integration between them. Document why new logic is required.
 
-No probly runtime dependency or source revision is chosen by this setup. Agree a reproducible
-version/commit before adding one; never commit an absolute sibling checkout path or silently use
-someone's experimental branch. Probly's own formatting is different (120 columns); shapiq's
-100-column policy applies here. Optional Torch/JAX backends must remain optional.
+The optional `probly` extra uses the Git revision pinned in [pyproject.toml](../pyproject.toml) and
+resolved in [uv.lock](../uv.lock). Agree a reproducible revision before changing the pin. Use
+portable dependency sources in committed configuration. Shapiq's 100-column formatting applies
+here. Keep Torch and JAX optional at import time. A public package upload requires a dependency
+that the package index can resolve.
 
 For package changes, test uncertainty sample axes, weights, log base, deterministic seeds, finite
 scalar outputs and decomposition identities. Add new package games to

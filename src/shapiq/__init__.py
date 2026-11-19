@@ -71,7 +71,9 @@ from .plot import (
     bar_plot,
     beeswarm_plot,
     force_plot,
+    interaction_heatmap_plot,
     network_plot,
+    region_attribution_plot,
     scatter_2d_plot,
     scatter_plot,
     sentence_plot,
@@ -148,6 +150,8 @@ __all__ = [
     "beeswarm_plot",
     "scatter_plot",
     "scatter_2d_plot",
+    "region_attribution_plot",
+    "interaction_heatmap_plot",
     # public utils
     "powerset",
     "get_explicit_subsets",

@@ -46,6 +46,7 @@ from .kernel import ProductKernelGame
 from .language import SentimentAnalysis
 from .local_xai import TabularLocalExplanation
 from .nn import KNNGame, ThresholdNNGame, WeightedKNNGame
+from .probly import ImageProblyGame, ProblyGame, ProblyPredictor, torch_cpu_context
 from .synthetic import SOUM, DummyGame, RandomTableGame, UnanimityGame
 from .tree import InterventionalTreeGame, PathDependentTreeGame
 from .uncertainty import TabularUncertaintyExplanation
@@ -75,12 +76,16 @@ __all__ = [
     "FeatureSelection",
     "GlobalConfoundingXAI",
     "ImageClassifier",
+    "ImageProblyGame",
     "ImageTextSimilarity",
     "LocalConfoundingXAI",
+    "ProblyGame",
+    "ProblyPredictor",
     "RandomForestEnsembleSelection",
     "SentimentAnalysis",
     "TabularGlobalExplanation",
     "TabularLocalExplanation",
     "TabularUncertaintyExplanation",
     "UnsupervisedData",
+    "torch_cpu_context",
 ]

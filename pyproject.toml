@@ -152,6 +152,7 @@ minversion = "8.0"
 line-length = 100
 target-version = "py312"
 src = ["tests", "src", "docs"]
+extend-exclude = ["experiments"]
 
 [tool.ruff.lint]
 # we allow star arguments to be of type Any e.g. def func(*args: Any, **kwargs: Any) -> None: is ok
@@ -242,7 +243,7 @@ exclude = [
 "src/shapiq_games/typing.py" = [
     "A005",  # mirrors shapiq.typing
 ]
-"tests/*.py" = [
+"{tests/*.py,experiments/*/tests/*.py}" = [
     # "ALL",
     "S101", # we need asserts in tests
     "D",    # test docstrings don't matter too much

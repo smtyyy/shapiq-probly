@@ -6,6 +6,7 @@ misc/**
 !.vscode/extensions.json
 !.vscode/tasks.json
 !.vscode/test.env
+!.vscode/experiments.code-workspace
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

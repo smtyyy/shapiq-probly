@@ -59,12 +59,17 @@ uv run --no-sync python build_tools/dev.py test
 uv run --no-sync python build_tools/dev.py check
 ```
 
-`quality` runs the shared formatting/lint/type checks. `test` runs the existing regular tests (some inherited tests may download small datasets).
-`check` is the combined pre-push/CI gate. For a fast edit loop use focused tests with
-`uv run --no-sync pytest path/to/test.py`; still run `check` before publishing the change.
-Formatting hooks can modify files: inspect and stage their changes, then rerun the check.
-Keep `OMP_NUM_THREADS=1` and `MKL_NUM_THREADS=1` when invoking tests directly; the helper sets the
-test environment before Python imports native libraries. Tests use headless plotting.
+`quality` runs the shared formatting, lint, and type checks. `test` runs the package suite under
+`tests/`. Some inherited tests may download small datasets. `check` combines quality checks and the
+package suite for the pre-push gate. For a fast edit loop use
+`uv run --no-sync pytest path/to/test.py`. Run `check` before publishing. Inspect formatting hook
+changes before staging them and rerunning the check. Set `OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`
+and `MPLBACKEND=Agg` when invoking tests directly to match the test helper.
+
+The shared hooks and CI exclude `experiments/` from formatting, lint, type checks, and tests.
+Experiments choose their own local checks and keep optional tests under `experiments/<topic>/tests/`.
+The [experiment guide](../experiments/README.md#run-local-tests) shows the local commands and
+separate VS Code workspace.
 
 Push a new feature branch and open the PR explicitly in this fork:
 
@@ -137,19 +142,19 @@ Before implementing uncertainty logic, search the selected probly revision for p
 provides entropy/variance and total/aleatoric/epistemic decompositions; shapiq already has coalition
 algorithms. Prefer a thin integration between them. Document why new logic is required.
 
-No probly runtime dependency or source revision is chosen by this setup. Agree a reproducible
-version/commit before adding one; never commit an absolute sibling checkout path or silently use
-someone's experimental branch. Probly's own formatting is different (120 columns); shapiq's
-100-column policy applies here. Optional Torch/JAX backends must remain optional.
+The optional `probly` extra uses the Git revision pinned in [pyproject.toml](../pyproject.toml) and
+resolved in [uv.lock](../uv.lock). Agree a reproducible revision before changing the pin. Use
+portable dependency sources in committed configuration. Shapiq's 100-column formatting applies
+here. Keep Torch and JAX optional at import time. A public package upload requires a dependency
+that the package index can resolve.
 
-Test uncertainty sample axes, weights, log base, deterministic seeds, finite scalar outputs and
-decomposition identities. Add new games to `tests/shapiq_games/test_contract.py` so repeated calls,
-fresh instances, coalition batches/orders and empty-coalition normalization are checked. Use small
-closed-form or brute-force oracles as in `tests/shapiq_benchmark/test_chain_of_trust.py`, with
-justified floating-point tolerances. Commit only durable tests asserting supported behavior or
-regressions. Keep one-off setup probes and disposable harnesses in ignored `.local-checks/` (or a
-temporary directory), not in the test suite. Do not commit tests that merely restate configuration
-or mirror implementation details.
+For package changes, test uncertainty sample axes, weights, log base, deterministic seeds, finite
+scalar outputs and decomposition identities. Add new package games to
+`tests/shapiq_games/test_contract.py` so repeated calls, fresh instances, coalition batches/orders
+and empty-coalition normalization are checked. Use small closed-form or brute-force oracles as in
+`tests/shapiq_benchmark/test_chain_of_trust.py`, with justified floating-point tolerances. Commit
+durable package tests of supported behavior and regressions. Keep one-off setup probes and
+disposable harnesses in ignored `.local-checks/` or a temporary directory.
 
 Keep new regular tests offline; inherited tests are not all offline yet. Reuse fakes/fixtures from
 `tests/shapiq_games/helpers.py` and `tests/shapiq/fixtures`, `tmp_path` and temporary `SHAPIQ_DATA_DIR` caches. Download tests in
@@ -212,13 +217,14 @@ Test Explorer loads `.vscode/test.env` to use the same native-thread limits and 
 as the test helper.
 Other editors should use this worktree's interpreter and the existing `pyproject.toml` rules.
 
-For agents, open this repository/worktree as the project. Codex discovers the root `AGENTS.md` and
-`.agents/skills`; Claude Code loads `CLAUDE.md`, which imports the same rules, and the small
-`.claude/skills` adapters. Each new chat therefore receives repository policy without relying on
-earlier chat context. Trust the project configuration in Codex and authenticate Context7 with
-`codex mcp login context7`. Claude Code loads the project `.mcp.json` after the user's project/server
-approval; authenticate in its MCP interface. Each collaborator authenticates independently. Keep
-personal preferences and machine paths in ignored local settings.
+`AGENTS.md` is the shared repository policy. Codex discovers it and the skills in `.agents/skills`.
+Claude Code reads the same policy through `CLAUDE.md` and uses the wrappers in `.claude/skills`.
+For work under `experiments/`, read the [scoped experiment rules](../experiments/AGENTS.md). The
+scoped `CLAUDE.md` imports those rules when Claude Code works in that directory.
+
+Trust the project configuration in Codex and authenticate Context7 with `codex mcp login context7`.
+In Claude Code, approve the project MCP server from `.mcp.json` and authenticate in the MCP
+interface. Keep credentials, personal preferences, and machine paths in local settings.
 
 The shared MCP configuration provides Context7 for current documentation. Use an existing
 GitHub connector or authenticated `gh` for fork operations; no extra GitHub MCP is installed.

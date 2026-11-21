@@ -2,6 +2,7 @@
 
 This is the shared instruction file for Codex and Claude Code. Read
 [the contributor guide](.github/CONTRIBUTING.md) for setup, commands and the code map.
+Read [the experiment instructions](experiments/AGENTS.md) when working under `experiments/`.
 
 ## Collaboration
 
@@ -20,20 +21,24 @@ This is the shared instruction file for Codex and Claude Code. Read
 
 ## Implementation
 
+- Treat package code, package tests, public documentation, and gallery examples as contributions
+  to the main shapiq repository. Follow its existing conventions and keep these changes portable
+  across checkouts so they can be integrated there.
 - Search existing shapiq and probly code, public APIs and tests before adding functionality.
   Reuse implementations; add an adapter only where necessary. Use the `probly-reuse` skill for
   uncertainty work. Do not silently add or change a probly dependency or source revision.
-- Keep the existing shapiq Ruff, formatter and `ty` settings authoritative: 100-column formatting,
-  Python 3.12 minimum, typed library APIs, Google-style English docstrings. Do not copy probly's
-  different formatting rules or weaken checks to make a change pass.
+- Follow the package's Ruff and `ty` settings, including 100-column formatting, Python 3.12
+  minimum, typed public APIs, and Google-style English docstrings.
 - Preserve package boundaries: core algorithms in `shapiq`, problem definitions in `shapiq_games`,
   dataset/model loading and benchmark orchestration in `shapiq_benchmark`.
+  Exploratory workflows and their shared utilities live under `experiments/`. Packages and
+  package tests must be independent of experiment code.
 - Preserve scalar game-value/coalition shape contracts, baseline/index semantics and deterministic
   seeded evaluation independent of batching, call order and cache state. Keep optional backends
   optional at import time; reuse lazy dispatch and informative missing-extra errors.
-- Add meaningful tests for features and regression tests for fixes. Prefer small analytical or
-  exhaustive numerical oracles, explicit tolerances and existing fixtures. New regular tests must be
-  offline; use temporary caches and fakes instead of downloading data or model weights.
+- Add meaningful tests for supported package features and regression tests for package fixes under
+  `tests/`. Prefer small analytical or exhaustive numerical oracles, explicit tolerances and
+  existing fixtures. New package tests must run offline with temporary caches and fakes.
 - Commit only durable tests of supported behavior or regressions. Keep disposable harnesses and
   one-off setup probes in ignored `.local-checks/` or a temporary directory. Do not commit them or
   tests that merely mirror configuration or implementation details.
@@ -44,15 +49,15 @@ This is the shared instruction file for Codex and Claude Code. Read
 
 ## Verification and tools
 
-- Initialize each checkout/worktree using the contributor guide's bootstrap command before
-  development. Use a maintained main-checkout environment for installed Git hooks; do not remove it while using them.
-- Before finishing code changes, run relevant focused tests and
-  `uv run --no-sync python build_tools/dev.py check`. Report exact commands, failures and skipped optional-backend coverage. Never claim an unrun check
-  passed. Hooks and required CI are the quality gate; do not disable them to complete ordinary work.
+- Initialize each checkout/worktree using the contributor guide's bootstrap command. Keep the
+  main checkout's environment available for the installed Git hooks.
+- For package changes, run relevant focused tests and `uv run --no-sync python build_tools/dev.py check`.
+  Report commands, failures, and skipped optional backends. Use the required hooks and CI for package
+  verification. Follow the experiment instructions for opt-in checks under `experiments/`.
 - For library/framework/SDK/API/CLI/service usage, fetch current official documentation. Prefer
   Context7: resolve the library ID first, then query one concept at a time. Use official docs if
   Context7 has no suitable source. This is unnecessary for ordinary refactoring or business logic.
-- Use project-scoped Context7 and existing GitHub tools or `gh` when available. Authentication
-  stays user-local; never commit tokens. A missing MCP must not prevent local code search, testing or manual setup.
-- Use `fork-workflow` for branch/worktree/PR operations and `probly-reuse` for uncertainty changes.
-  Keep shared policy here; `CLAUDE.md` imports it. Avoid duplicating rules in separate agent files.
+- Use project-scoped Context7 and existing GitHub tools or `gh` when available. Authenticate
+  locally and keep credentials out of Git.
+- Use `fork-workflow` for branch, worktree, and PR operations. Keep shared policy here so the
+  `CLAUDE.md` import gives both agents the same instructions.

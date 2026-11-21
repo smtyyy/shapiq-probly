@@ -98,8 +98,8 @@ below. The games of :mod:`shapiq_games` and the benchmark :mod:`shapiq_benchmark
       :link-type: doc
       :class-card: shapiq-card
 
-      Force, waterfall, bar, beeswarm, scatter, 2-D scatter, network, SI graph, and UpSet
-      plots.
+      Force, waterfall, bar, beeswarm, scatter, 2-D scatter, network, SI graph, UpSet,
+      region attribution, and pairwise interaction heatmaps.
 
       +++
       shapiq.plot
@@ -136,6 +136,8 @@ Where to Start
        :class:`~shapiq.imputer.MarginalImputer`
    * - explain TabPFN
      - :class:`~shapiq.explainer.TabPFNExplainer`
+   * - explain predictive uncertainty from probly representations
+     - :ref:`games-probly`
    * - compute every index of a small game exactly
      - :class:`~shapiq.game_theory.ExactComputer`
    * - estimate the values of a large game

@@ -1,4 +1,4 @@
-"""The setups: every game but the synthetic ones builds from names, reproducibly, with a stable key."""
+"""Named problem setups build reproducible games with stable keys."""
 
 from __future__ import annotations
 
@@ -6,12 +6,12 @@ import dataclasses
 import pickle
 from dataclasses import dataclass
 from types import SimpleNamespace
-from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
 
 import shapiq_games as sg
+from shapiq import Game
 from shapiq_benchmark import setups
 from shapiq_benchmark.setups import (
     SETUPS,
@@ -40,10 +40,10 @@ from shapiq_benchmark.setups import (
     setup_from_dict,
 )
 
-if TYPE_CHECKING:
-    from shapiq import Game
-
 _SYNTHETIC_GAMES = {"DummyGame", "RandomTableGame", "SOUM", "UnanimityGame"}
+# These adapters take caller-defined representation pipelines, not registered model names.
+# Their direct Benchmark(game) integration is checked in test_probly.py.
+_CALLER_DEFINED_GAMES = {"ProblyGame", "ImageProblyGame"}
 
 # setups that build offline (registered synthetic datasets and scikit-learn's breast cancer)
 OFFLINE: dict[str, tuple[Setup, type[Game]]] = {
@@ -121,8 +121,14 @@ OFFLINE: dict[str, tuple[Setup, type[Game]]] = {
 }
 
 
-def test_every_game_but_the_synthetic_ones_has_one_setup() -> None:
-    games = {name for name in sg.__all__ if name not in _SYNTHETIC_GAMES}
+def test_every_named_problem_game_has_one_setup() -> None:
+    games = {
+        name
+        for name in sg.__all__
+        if isinstance(game := getattr(sg, name), type)
+        and issubclass(game, Game)
+        and name not in _SYNTHETIC_GAMES | _CALLER_DEFINED_GAMES
+    }
     built = {game.__name__ for _, game in OFFLINE.values()} | {
         "ImageClassifier",  # tested below with a stand-in model
         "ImageTextSimilarity",
